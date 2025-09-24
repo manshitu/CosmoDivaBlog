@@ -9,7 +9,7 @@ export default function Sidebar() {
           CosmoDiva is a women's health platform dedicated to helping you understand your cycle, optimize your fertility, and embrace your feminine power.
         </p>
         <a
-          href="#"
+          href="/about"
           className="text-purple-600 font-semibold hover:text-pink-500"
         >
           Learn More →

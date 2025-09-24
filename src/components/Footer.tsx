@@ -16,19 +16,13 @@ export default function Footer() {
           <h3 className="text-xl font-semibold mb-3">Quick Links</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/" className="hover:underline">
                 Home
               </a>
             </li>
             <li>
-              <a href="#">About Us</a>
-            </li>
-            <li>
-              <a href="#">Blog</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
+              <a href="/about">About Us</a>
+            </li>            
           </ul>
         </div>
 
@@ -37,16 +31,16 @@ export default function Footer() {
           <h3 className="text-xl font-semibold mb-3">Categories</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#">Cycle Health</a>
+              <a href="/?category=Cycle%20Health">Cycle Health</a>
             </li>
             <li>
-              <a href="#">Fertility</a>
+              <a href="/?category=Fertility">Fertility</a>
             </li>
             <li>
-              <a href="#">Wellness</a>
+              <a href="/?category=Wellness">Wellness</a>
             </li>
             <li>
-              <a href="#">Nutrition</a>
+              <a href="/?category=Nutrition">Nutrition</a>
             </li>
           </ul>
         </div>

@@ -1,23 +1,32 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom"; // ✅ new
 import BlogCard from "../components/BlogCard";
 import Pagination from "../components/Pagination";
 import Hero from "../components/Hero";
 import CategoryTabs from "../components/CategoryTabs";
 import Sidebar from "../components/Sidebar";
-import { posts, type BlogPost } from "@/data/Posts"; // ✅ use unified type
+import { posts, type BlogPost } from "@/data/Posts";
 
 const POSTS_PER_PAGE = 4;
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCat, setSelectedCat] = useState("All");
   const [search, setSearch] = useState("");
 
-  // ✅ typed posts
+  const [searchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "All";
+
+  const [selectedCat, setSelectedCat] = useState(categoryFromUrl);
+
+  useEffect(() => {
+    setSelectedCat(categoryFromUrl); // react to URL changes
+    setCurrentPage(1);
+  }, [categoryFromUrl]);
+
   const filteredPosts: BlogPost[] = useMemo(() => {
     let result = posts;
     if (selectedCat !== "All") {
-      result = result.filter((p) => p.tags.includes(selectedCat));
+      result = result.filter((p) => p.tags?.includes(selectedCat));
     }
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -49,6 +58,7 @@ export default function Home() {
               setCurrentPage(1);
             }}
           />
+
           <section className="grid gap-8 sm:grid-cols-2">
             {selectedPosts.length > 0 ? (
               selectedPosts.map((post) => (
@@ -60,16 +70,22 @@ export default function Home() {
               </p>
             )}
           </section>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(filteredPosts.length / POSTS_PER_PAGE)}
-            onPageChange={setCurrentPage}
-          />
+
+          {/* ✅ Only show if there are posts */}
+          {filteredPosts.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.max(
+                1,
+                Math.ceil(filteredPosts.length / POSTS_PER_PAGE)
+              )}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </div>
         <Sidebar />
       </div>
     </>
   );
 }
-// Note: Footer is included in App.tsx to appear on all pages
-// Note: Header is included in App.tsx to appear on all pages
+// src/pages/Home.tsx
