@@ -2,6 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Helmet } from "react-helmet-async"; // ✅ import Helmet
 import { posts, type BlogPost } from "@/data/Posts";
 
 export default function Post() {
@@ -10,7 +11,7 @@ export default function Post() {
 
   if (!post) {
     return (
-      <main className="max-w-3xl mx-auto px-4 py-16">
+      <main className="max-w-3xl mx-auto px-4 py-8">
         <p className="text-gray-600 text-lg">🚫 Post not found.</p>
         <Link
           to="/"
@@ -22,8 +23,34 @@ export default function Post() {
     );
   }
 
+  const siteName = "CosmoDiva";
+  const url = typeof window !== "undefined" ? window.location.href : "";
+  const image = post.image
+    ? window.location.origin + post.image
+    : window.location.origin + "/images/default-cover.jpg";
+
   return (
     <main className="max-w-3xl mx-auto px-4 py-8">
+      {/* ✅ Helmet SEO + Open Graph */}
+      <Helmet>
+        <title>{post.title} | {siteName}</title>
+        <meta name="description" content={post.excerpt || post.title} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content={siteName} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt || ""} />
+        <meta property="og:image" content={image} />
+        <meta property="og:url" content={url} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt || ""} />
+        <meta name="twitter:image" content={image} />
+      </Helmet>
+
       {/* ✅ Image → Icon → Nothing */}
       {post.image ? (
         <div className="mb-8 rounded-2xl overflow-hidden shadow">
@@ -31,7 +58,6 @@ export default function Post() {
             src={post.image}
             alt={post.title}
             className="w-full h-72 object-cover"
-            
           />
         </div>
       ) : post.icon ? (
@@ -50,8 +76,6 @@ export default function Post() {
         <span>{new Date(post.date).toDateString()}</span>
         <span>•</span>
         <span>{post.readTime}</span>
-        {/*<span>•</span>
-        <span>{post.author}</span>*/}
       </div>
 
       {/* Markdown content */}
@@ -87,4 +111,3 @@ export default function Post() {
     </main>
   );
 }
-// src/components/Sidebar.tsx
