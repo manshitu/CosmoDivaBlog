@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Helmet } from "react-helmet-async"; // ✅ import Helmet
+//import { Helmet } from "react-helmet-async"; // ✅ import Helmet
 import { posts, type BlogPost } from "@/data/Posts";
 
 export default function Post() {
@@ -23,33 +23,11 @@ export default function Post() {
     );
   }
 
-  const siteName = "CosmoDiva";
-  const url = typeof window !== "undefined" ? window.location.href : "";
-  const image = post.image
-    ? window.location.origin + post.image
-    : window.location.origin + "/images/default-cover.jpg";
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-8">
       {/* ✅ Helmet SEO + Open Graph */}
-      <Helmet>
-        <title>{post.title} | {siteName}</title>
-        <meta name="description" content={post.excerpt || post.title} />
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="article" />
-        <meta property="og:site_name" content={siteName} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt || ""} />
-        <meta property="og:image" content={image} />
-        <meta property="og:url" content={url} />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt || ""} />
-        <meta name="twitter:image" content={image} />
-      </Helmet>
+      
 
       {/* ✅ Image → Icon → Nothing */}
       {post.image ? (
