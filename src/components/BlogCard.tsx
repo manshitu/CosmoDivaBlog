@@ -1,5 +1,6 @@
+// src/components/BlogCard.tsx
 import { Link } from "react-router-dom";
-import type { BlogPost } from "@/data/Posts"; 
+import type { BlogPost } from "@/data/Posts";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -8,9 +9,19 @@ interface BlogCardProps {
 export default function BlogCard({ post }: BlogCardProps) {
   return (
     <article className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-      {/* Thumbnail / Icon */}
-      <div className="bg-gradient-to-r from-purple-400 to-pink-400 h-40 flex items-center justify-center text-white text-3xl">
-        <i className={`fas ${post.icon || "fa-book"}`} aria-hidden></i>
+      {/* Thumbnail: image → icon → default */}
+      <div className="h-40 w-full overflow-hidden flex items-center justify-center bg-gradient-to-r from-purple-400 to-pink-400 text-white text-3xl">
+        {post.image ? (
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-full object-cover"
+          />
+        ) : post.icon ? (
+          <i className={`fas ${post.icon}`} aria-hidden></i>
+        ) : (
+          <i className="fas fa-book" aria-hidden></i> // ✅ fallback
+        )}
       </div>
 
       {/* Content */}
@@ -49,4 +60,3 @@ export default function BlogCard({ post }: BlogCardProps) {
     </article>
   );
 }
-// Note: Footer is included in App.tsx to appear on all pages

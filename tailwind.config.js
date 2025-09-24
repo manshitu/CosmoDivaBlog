@@ -70,8 +70,7 @@ module.exports = {
               maxHeight: "480px",
               objectFit: "cover",
             },
-
-           /* ✨ Gradient HR */
+            /* ✨ Gradient HR */
             hr: {
               marginTop: "2em",
               marginBottom: "2em",
@@ -82,7 +81,6 @@ module.exports = {
               )}, ${theme("colors.pink.500")})`,
               borderRadius: "9999px", // pill effect
             },
-
           },
         },
         /* Override prose-lg as well */

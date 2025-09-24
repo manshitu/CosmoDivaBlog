@@ -8,7 +8,8 @@ export interface BlogPost {
   author: string;
   tags: string[];
   readTime: string;
-  icon?: string;
+  icon?: string; // ✅ optional icon fallback
+  image?: string; // ✅ optional cover image
   excerpt?: string;
   content: string;
 }
@@ -34,9 +35,10 @@ export const posts: BlogPost[] = Object.entries(modules)
       author: attrs.author as string,
       tags: (attrs.tags as string[]) || [],
       readTime: (attrs.readTime as string) || "—",
-      icon: attrs.icon as string | undefined,
+      icon: attrs.icon as string | undefined, // optional
+      image: attrs.image as string | undefined, // optional
       excerpt: attrs.excerpt as string | undefined,
-      content: parsed.body, // markdown content without frontmatter
+      content: parsed.body,
     };
   })
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

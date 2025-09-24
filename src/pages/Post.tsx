@@ -23,7 +23,23 @@ export default function Post() {
   }
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-16">
+    <main className="max-w-3xl mx-auto px-4 py-8">
+      {/* ✅ Image → Icon → Nothing */}
+      {post.image ? (
+        <div className="mb-8 rounded-2xl overflow-hidden shadow">
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-72 object-cover"
+            
+          />
+        </div>
+      ) : post.icon ? (
+        <div className="mb-8 h-40 flex items-center justify-center bg-gradient-to-r from-purple-400 to-pink-400 text-white text-5xl rounded-2xl shadow">
+          <i className={`fas ${post.icon}`} aria-hidden></i>
+        </div>
+      ) : null}
+
       {/* Title */}
       <h1 className="text-4xl font-extrabold text-purple-700 mb-4 leading-snug">
         {post.title}
@@ -71,3 +87,4 @@ export default function Post() {
     </main>
   );
 }
+// src/components/Sidebar.tsx

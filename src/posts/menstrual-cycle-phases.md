@@ -6,6 +6,8 @@ readTime: "5 min read"
 tags: ["Cycle Health", "Education", "Hormones"]
 icon: "fa-calendar-alt"
 excerpt: "Learn about the four phases of your menstrual cycle and how each affects your energy, mood, and productivity."
+image: "/images/yoga-cramp.png"
+
 ---
 
 # Understanding Your Menstrual Cycle Phases
