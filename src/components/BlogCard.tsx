@@ -27,7 +27,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       {/* Content */}
       <div className="p-5">
         <div className="text-sm text-gray-500 mb-2">
-          {new Date(post.date).toDateString()} • {post.readTime} • {post.author}
+          {new Date(post.date).toDateString()} • {post.readTime} {/*  • {post.author} */}
         </div>
 
         <h2 className="text-xl font-semibold text-purple-700 mb-2">

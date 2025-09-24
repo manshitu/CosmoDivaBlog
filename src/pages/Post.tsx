@@ -50,8 +50,8 @@ export default function Post() {
         <span>{new Date(post.date).toDateString()}</span>
         <span>•</span>
         <span>{post.readTime}</span>
-        <span>•</span>
-        <span>{post.author}</span>
+        {/*<span>•</span>
+        <span>{post.author}</span>*/}
       </div>
 
       {/* Markdown content */}
