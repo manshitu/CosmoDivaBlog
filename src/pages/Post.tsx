@@ -1,15 +1,54 @@
 // src/pages/Post.tsx
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-//import { Helmet } from "react-helmet-async"; // ✅ import Helmet
-import { posts, type BlogPost } from "@/data/Posts";
+
+interface PostData {
+  slug: string;
+  frontmatter: {
+    title: string;
+    description?: string;
+    date?: string;
+    author?: string;
+    readTime?: string;
+    image?: string;
+    icon?: string;
+    tags?: string[];
+  };
+  content: string;
+}
 
 export default function Post() {
   const { slug } = useParams<{ slug: string }>();
-  const post: BlogPost | undefined = posts.find((p) => p.slug === slug);
+  const [post, setPost] = useState<PostData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!post) {
+  useEffect(() => {
+    if (!slug) return;
+    setLoading(true);
+    setError(null);
+
+    fetch(`/api/posts/${slug}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Post not found");
+        return res.json();
+      })
+      .then((data: PostData) => setPost(data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <main className="max-w-3xl mx-auto px-4 py-8">
+        <p className="text-gray-500">Loading post...</p>
+      </main>
+    );
+  }
+
+  if (error || !post) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-8">
         <p className="text-gray-600 text-lg">🚫 Post not found.</p>
@@ -23,37 +62,47 @@ export default function Post() {
     );
   }
 
+  const { frontmatter } = post;
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-8">
-      {/* ✅ Helmet SEO + Open Graph */}
-      
-
       {/* ✅ Image → Icon → Nothing */}
-      {post.image ? (
+      {frontmatter.image ? (
         <div className="mb-8 rounded-2xl overflow-hidden shadow">
           <img
-            src={post.image}
-            alt={post.title}
+            src={frontmatter.image}
+            alt={frontmatter.title}
             className="w-full h-72 object-cover"
           />
         </div>
-      ) : post.icon ? (
+      ) : frontmatter.icon ? (
         <div className="mb-8 h-40 flex items-center justify-center bg-gradient-to-r from-purple-400 to-pink-400 text-white text-5xl rounded-2xl shadow">
-          <i className={`fas ${post.icon}`} aria-hidden></i>
+          <i className={`fas ${frontmatter.icon}`} aria-hidden></i>
         </div>
       ) : null}
 
       {/* Title */}
       <h1 className="text-4xl font-extrabold text-purple-700 mb-4 leading-snug">
-        {post.title}
+        {frontmatter.title}
       </h1>
 
       {/* Meta */}
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-        <span>{new Date(post.date).toDateString()}</span>
-        <span>•</span>
-        <span>{post.readTime}</span>
+        {frontmatter.date && (
+          <span>{new Date(frontmatter.date).toDateString()}</span>
+        )}
+        {frontmatter.readTime && (
+          <>
+            <span>•</span>
+            <span>{frontmatter.readTime}</span>
+          </>
+        )}
+        {frontmatter.author && (
+          <>
+            <span>•</span>
+            <span>{frontmatter.author}</span>
+          </>
+        )}
       </div>
 
       {/* Markdown content */}
@@ -64,9 +113,9 @@ export default function Post() {
       </article>
 
       {/* Tags */}
-      {post.tags?.length > 0 && (
+      {Array.isArray(frontmatter.tags) && frontmatter.tags.length > 0 && (
         <div className="mt-8 flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
+          {frontmatter.tags.map((tag: string) => (
             <span
               key={tag}
               className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium"

@@ -1,27 +1,55 @@
+// src/pages/Home.tsx
 import { useState, useMemo, useEffect } from "react";
-import { useSearchParams } from "react-router-dom"; // ✅ new
+import { useSearchParams } from "react-router-dom";
 import BlogCard from "../components/BlogCard";
 import Pagination from "../components/Pagination";
 import Hero from "../components/Hero";
 import CategoryTabs from "../components/CategoryTabs";
 import Sidebar from "../components/Sidebar";
-import { posts, type BlogPost } from "@/data/Posts";
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt?: string;
+  description?: string;
+  date?: string;
+  author?: string;
+  readTime?: string;
+  image?: string;
+  icon?: string;
+  tags?: string[];
+}
 
 const POSTS_PER_PAGE = 4;
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [searchParams] = useSearchParams();
   const categoryFromUrl = searchParams.get("category") || "All";
-
   const [selectedCat, setSelectedCat] = useState(categoryFromUrl);
 
   useEffect(() => {
-    setSelectedCat(categoryFromUrl); // react to URL changes
+    setSelectedCat(categoryFromUrl);
     setCurrentPage(1);
   }, [categoryFromUrl]);
+
+  // ✅ Fetch posts list from Worker API
+  useEffect(() => {
+    setLoading(true);
+    fetch("/api/posts")
+      .then((res) => res.json())
+      .then((data: BlogPost[]) => {
+        setPosts(data);
+      })
+      .catch((err) => {
+        console.error("Failed to load posts:", err);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const filteredPosts: BlogPost[] = useMemo(() => {
     let result = posts;
@@ -34,11 +62,11 @@ export default function Home() {
         (p) =>
           p.title.toLowerCase().includes(q) ||
           (p.excerpt?.toLowerCase().includes(q) ?? false) ||
-          p.author.toLowerCase().includes(q)
+          (p.author?.toLowerCase().includes(q) ?? false)
       );
     }
     return result;
-  }, [selectedCat, search]);
+  }, [posts, selectedCat, search]);
 
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
   const selectedPosts = filteredPosts.slice(
@@ -59,20 +87,24 @@ export default function Home() {
             }}
           />
 
-          <section className="grid gap-8 sm:grid-cols-2">
-            {selectedPosts.length > 0 ? (
-              selectedPosts.map((post) => (
-                <BlogCard key={post.slug} post={post} />
-              ))
-            ) : (
-              <p className="text-gray-600 col-span-full text-center">
-                No posts found.
-              </p>
-            )}
-          </section>
+          {loading ? (
+            <p className="text-gray-500 text-center">Loading posts...</p>
+          ) : (
+            <section className="grid gap-8 sm:grid-cols-2">
+              {selectedPosts.length > 0 ? (
+                selectedPosts.map((post) => (
+                  <BlogCard key={post.slug} post={post} />
+                ))
+              ) : (
+                <p className="text-gray-600 col-span-full text-center">
+                  No posts found.
+                </p>
+              )}
+            </section>
+          )}
 
           {/* ✅ Only show if there are posts */}
-          {filteredPosts.length > 0 && (
+          {!loading && filteredPosts.length > 0 && (
             <Pagination
               currentPage={currentPage}
               totalPages={Math.max(
@@ -88,4 +120,3 @@ export default function Home() {
     </>
   );
 }
-// src/pages/Home.tsx

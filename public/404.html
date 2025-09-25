@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CosmoDiva</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+    .loading {
+      color: #7c3aed;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading">Loading...</div>
+
+  <script>
+    // Load index.html so React Router can handle the route
+    fetch("/index.html")
+      .then((res) => res.text())
+      .then((html) => {
+        document.open();
+        document.write(html);
+        document.close();
+        // Preserve the current path so SPA router can pick it up
+        history.replaceState({}, "", location.pathname + location.search + location.hash);
+      })
+      .catch(() => {
+        document.body.innerHTML =
+          '<div style="text-align:center"><h1>404</h1><p>Page not found. <a href="/">Go Home</a></p></div>';
+      });
+  </script>
+</body>
+</html>
