@@ -30,7 +30,7 @@ export default function BlogCard({ post }: BlogCardProps) {
           <img
             src={post.image}
             alt={post.title}
-            className="max-h-full max-w-full object-contain"
+            className="h-40 object-cover"
           />
         ) : post.icon ? (
           <i className={`fas ${post.icon}`} aria-hidden></i>
