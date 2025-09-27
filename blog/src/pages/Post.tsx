@@ -127,72 +127,16 @@ export default function Post() {
       )}
 
       {/* Share Section */}
-      <div className="mt-6 border-t pt-6">
-        <h3 className="text-lg font-semibold text-gray-700 mb-3">
-          Share this post:
-        </h3>
-        <div className="flex gap-4">
-          {/* X (Twitter) */}
-          <a
-            href={`https://x.com/intent/tweet?url=${encodeURIComponent(
-              window.location.href
-            )}&text=${encodeURIComponent(frontmatter.title)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 bg-black rounded-full text-white hover:opacity-80"
-            aria-label="Share on X"
-          >
-            <i className="fab fa-x-twitter"></i>
-          </a>
-
-          {/* Facebook */}
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              window.location.href
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 bg-blue-600 rounded-full text-white hover:bg-blue-700"
-            aria-label="Share on Facebook"
-          >
-            <i className="fab fa-facebook-f"></i>
-          </a>
-
-          {/* LinkedIn */}
-          <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-              window.location.href
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 bg-blue-500 rounded-full text-white hover:bg-blue-600"
-            aria-label="Share on LinkedIn"
-          >
-            <i className="fab fa-linkedin-in"></i>
-          </a>
-
-          {/* WhatsApp */}
-          <a
-            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-              frontmatter.title + " " + window.location.href
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 bg-green-500 rounded-full text-white hover:bg-green-600"
-            aria-label="Share on WhatsApp"
-          >
-            <i className="fab fa-whatsapp"></i>
-          </a>
-        </div>
-      </div>
-
-      {/* Share Section */}
-      <div className="mt-10 border-t pt-6">
-        <h3 className="text-lg font-semibold text-gray-700 mb-3">
-          Share this post
+      <div className="mt-6 border-t pt-6 text-right">
+        <h3 className="text-lg font-semibold text-gray-700 mb-3 flex items-center justify-end gap-2">
+          <span>Share this post</span>
+          <i
+            className="fas fa-share-alt text-purple-600 transition-transform transform hover:scale-110 hover:rotate-12 hover:text-pink-500"
+            title="Share this post"
+          ></i>
         </h3>
 
-        <div className="flex gap-3">
+        <div className="flex justify-end gap-3">
           {/* X (Twitter) */}
           <a
             href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
@@ -204,16 +148,7 @@ export default function Post() {
             title="Share on X"
             className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:opacity-80"
           >
-            {/* FA v6: fa-x-twitter; FA v5: fa-twitter */}
-            <svg
-              className="fab x-icon"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-            </svg>
+            <i className="fab fa-x-twitter text-[18px] leading-none fa-fw"></i>
           </a>
 
           {/* Facebook */}
