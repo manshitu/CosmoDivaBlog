@@ -24,6 +24,7 @@ export default function Post() {
   const [post, setPost] = useState<PostData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -199,6 +200,25 @@ export default function Post() {
             className="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center"
           >
             <i className="fab fa-whatsapp text-[18px] leading-none fa-fw transition-transform duration-300 hover:rotate-12"></i>
+          </a>
+
+          {/* Copy Link */}
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              navigator.clipboard.writeText(window.location.href);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            aria-label="Copy link"
+            title="Copy link"
+            className="w-10 h-10 rounded-full bg-gray-600 text-white flex items-center justify-center hover:bg-gray-700 cursor-pointer"
+          >
+            {copied ? (
+              <i className="fas fa-check text-[18px] fa-fw transition-transform duration-300"></i>
+            ) : (
+              <i className="fas fa-link text-[18px] fa-fw transition-transform duration-300 hover:rotate-12"></i>
+            )}
           </a>
         </div>
       </div>
