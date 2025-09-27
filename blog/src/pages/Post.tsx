@@ -127,7 +127,7 @@ export default function Post() {
       )}
 
       {/* Share Section */}
-      <div className="mt-10 border-t pt-6">
+      <div className="mt-6 border-t pt-6">
         <h3 className="text-lg font-semibold text-gray-700 mb-3">
           Share this post:
         </h3>
@@ -182,6 +182,80 @@ export default function Post() {
             aria-label="Share on WhatsApp"
           >
             <i className="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+
+      {/* Share Section */}
+      <div className="mt-10 border-t pt-6">
+        <h3 className="text-lg font-semibold text-gray-700 mb-3">
+          Share this post
+        </h3>
+
+        <div className="flex gap-3">
+          {/* X (Twitter) */}
+          <a
+            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+              window.location.href
+            )}&text=${encodeURIComponent(frontmatter.title)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on X"
+            title="Share on X"
+            className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:opacity-80"
+          >
+            {/* FA v6: fa-x-twitter; FA v5: fa-twitter */}
+            <svg
+              className="fab x-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+            </svg>
+          </a>
+
+          {/* Facebook */}
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+              window.location.href
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on Facebook"
+            title="Share on Facebook"
+            className="w-10 h-10 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:brightness-95"
+          >
+            <i className="fab fa-facebook-f text-[18px] leading-none fa-fw"></i>
+          </a>
+
+          {/* LinkedIn */}
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+              window.location.href
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on LinkedIn"
+            title="Share on LinkedIn"
+            className="w-10 h-10 rounded-full bg-[#0A66C2] text-white flex items-center justify-center hover:brightness-95"
+          >
+            <i className="fab fa-linkedin-in text-[18px] leading-none fa-fw"></i>
+          </a>
+
+          {/* WhatsApp */}
+          <a
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+              `${frontmatter.title} ${window.location.href}`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on WhatsApp"
+            title="Share on WhatsApp"
+            className="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:brightness-95"
+          >
+            <i className="fab fa-whatsapp text-[18px] leading-none fa-fw"></i>
           </a>
         </div>
       </div>
