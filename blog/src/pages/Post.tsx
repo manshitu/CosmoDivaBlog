@@ -73,7 +73,7 @@ export default function Post() {
           <img
             src={frontmatter.image}
             alt={frontmatter.title}
-            className="w-full h-72 object-cover"
+            className="max-h-96 w-auto object-contain"
           />
         </div>
       ) : frontmatter.icon ? (
