@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import ContainWithBlur from "@/components/ContainWithBlur";
 
 interface PostData {
   slug: string;
@@ -71,11 +70,10 @@ export default function Post() {
       {/* ✅ Image → Icon → Nothing */}
       {frontmatter.image ? (
         <div className="mb-8 rounded-2xl overflow-hidden shadow">
-          <ContainWithBlur
+          <img
             src={frontmatter.image}
             alt={frontmatter.title}
-            height="h-72 md:h-96" // taller on post page
-            className="mb-8 shadow"
+            className="max-h-96 w-auto object-contain"
           />
         </div>
       ) : frontmatter.icon ? (

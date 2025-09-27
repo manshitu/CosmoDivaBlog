@@ -1,6 +1,5 @@
 // src/components/BlogCard.tsx
 import { Link } from "react-router-dom";
-import ContainWithBlur from "@/components/ContainWithBlur";
 
 export interface BlogPost {
   slug: string;
@@ -28,11 +27,10 @@ export default function BlogCard({ post }: BlogCardProps) {
       {/* Thumbnail: image → icon → default */}
       <div className="h-40 w-full overflow-hidden flex items-center justify-center bg-gradient-to-r from-purple-400 to-pink-400 text-white text-3xl">
         {post.image ? (
-          <ContainWithBlur
+          <img
             src={post.image}
             alt={post.title}
-            height="h-40" // uniform card height
-            className="rounded-t-xl"
+            className="max-h-full max-w-full object-contain"
           />
         ) : post.icon ? (
           <i className={`fas ${post.icon}`} aria-hidden></i>
