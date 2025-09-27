@@ -7,8 +7,8 @@ binding = "COSMO_BUCKET"
 bucket_name = "cosmo-content"
 
 [vars]
-SITE_URL = "https://yourdomain.com"
-PAGES_ORIGIN = "https://yourproject.pages.dev"
+SITE_URL = "https://blog.cosmodiva.com"
+PAGES_ORIGIN = "cosmodiva-blog.cosmodiva-coming-soon.workers.dev"
 
 # wrangler.toml (wrangler v3.88.0^)
 [observability.logs]
