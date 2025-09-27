@@ -1,0 +1,261 @@
+-- =====================
+-- BLOGS TABLE
+-- =====================
+create table blogs (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  slug text not null unique,
+  content text not null,
+  image text,
+  author text,  -- free text (e.g. "CosmoDiva Team")
+  age_group text check (age_group in ('13-18','19-30','31-45','46+','All')) default 'All',
+  published_at timestamptz default now(),
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+comment on table blogs is 'Stores all blog posts with metadata and restrictions.';
+comment on column blogs.id is 'Primary key UUID for the blog.';
+comment on column blogs.title is 'Blog post title.';
+comment on column blogs.slug is 'Unique slug for routing and SEO.';
+comment on column blogs.content is 'Main content of the blog (HTML/Markdown).';
+comment on column blogs.image is 'Featured image URL.';
+comment on column blogs.author is 'Name of the author (free text, no relation).';
+comment on column blogs.age_group is 'Allowed reader age group.';
+comment on column blogs.published_at is 'Date and time when the blog was published.';
+comment on column blogs.created_at is 'Record creation time.';
+comment on column blogs.updated_at is 'Record update time.';
+
+alter table blogs enable row level security;
+
+-- Public read access
+create policy blogs_select_public on blogs for select
+  using ( true );
+
+-- Only service role or admin should insert/update (no user relation)
+create policy blogs_insert_admin on blogs for insert
+  with check (true);
+
+create policy blogs_update_admin on blogs for update
+  using (true);
+
+-- Indexes
+create index idx_blogs_slug on blogs(slug);
+create index idx_blogs_published_at on blogs(published_at);
+
+
+-- =====================
+-- TAGS TABLE
+-- =====================
+create table tags (
+  id uuid primary key default gen_random_uuid(),
+  name text not null unique,
+  created_at timestamptz default now()
+);
+
+comment on table tags is 'Stores unique tags for blog categorization.';
+comment on column tags.id is 'Primary key UUID for the tag.';
+comment on column tags.name is 'Tag name (e.g. Health, Nutrition, Fitness).';
+comment on column tags.created_at is 'Record creation time.';
+
+
+-- =====================
+-- BLOG_TAGS TABLE (Many-to-Many)
+-- =====================
+create table blog_tags (
+  blog_id uuid references blogs(id) on delete cascade,
+  tag_id uuid references tags(id) on delete cascade,
+  primary key (blog_id, tag_id)
+);
+
+comment on table blog_tags is 'Join table for many-to-many relationship between blogs and tags.';
+
+
+-- =====================
+-- COMMENTS TABLE
+-- =====================
+create table comments (
+  id uuid primary key default gen_random_uuid(),
+  blog_id uuid references blogs(id) on delete cascade,
+  username text not null,  -- free text username
+  content text not null,
+  created_at timestamptz default now(),
+  status text check (status in ('approved','pending','rejected')) default 'pending'
+);
+
+comment on table comments is 'Stores public comments on blogs with moderation.';
+comment on column comments.id is 'Primary key UUID for the comment.';
+comment on column comments.blog_id is 'Blog that this comment belongs to.';
+comment on column comments.username is 'Name entered by commenter (no relation).';
+comment on column comments.content is 'Comment text.';
+comment on column comments.created_at is 'When the comment was created.';
+comment on column comments.status is 'Moderation status.';
+
+alter table comments enable row level security;
+
+-- Public can read only approved comments
+create policy comments_select_public on comments for select
+  using ( status = 'approved' );
+
+-- Anyone can insert comments (if you want open comments)
+create policy comments_insert_anyone on comments for insert
+  with check (true);
+
+-- Indexes
+create index idx_comments_blog_id on comments(blog_id);
+
+
+-- =====================
+-- SUBSCRIPTIONS TABLE (Optional: for push notifications)
+-- =====================
+create table subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  endpoint text not null unique,
+  keys jsonb not null, -- stores auth + p256dh keys
+  created_at timestamptz default now()
+);
+
+comment on table subscriptions is 'Stores Web Push subscriptions for anonymous users.';
+comment on column subscriptions.endpoint is 'Unique push endpoint for the browser.';
+comment on column subscriptions.keys is 'Auth + p256dh keys for push notifications.';
+comment on column subscriptions.created_at is 'When the subscription was created.';
+
+alter table subscriptions enable row level security;
+
+-- Allow anyone to insert a subscription (public signup)
+create policy subscriptions_insert_anyone on subscriptions for insert
+  with check (true);
+
+-- No public select (to protect subscription data)
+
+--------------------------------------------------------------alter
+
+-- =====================
+-- BLOGS TABLE
+-- =====================
+create table blogs (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  slug text not null unique,
+  content text not null,
+  image text,
+  author text,  -- free text (e.g. "CosmoDiva Team")
+  age_group text check (age_group in ('13-18','19-30','31-45','46+','All')) default 'All',
+  published_at timestamptz default now(),
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+comment on table blogs is 'Stores all blog posts with metadata and restrictions.';
+comment on column blogs.id is 'Primary key UUID for the blog.';
+comment on column blogs.title is 'Blog post title.';
+comment on column blogs.slug is 'Unique slug for routing and SEO.';
+comment on column blogs.content is 'Main content of the blog (HTML/Markdown).';
+comment on column blogs.image is 'Featured image URL.';
+comment on column blogs.author is 'Name of the author (free text, no relation).';
+comment on column blogs.age_group is 'Allowed reader age group.';
+comment on column blogs.published_at is 'Date and time when the blog was published.';
+comment on column blogs.created_at is 'Record creation time.';
+comment on column blogs.updated_at is 'Record update time.';
+
+alter table blogs enable row level security;
+
+-- Public read access
+create policy blogs_select_public on blogs for select
+  using ( true );
+
+-- Only service role or admin should insert/update (no user relation)
+create policy blogs_insert_admin on blogs for insert
+  with check (true);
+
+create policy blogs_update_admin on blogs for update
+  using (true);
+
+-- Indexes
+create index idx_blogs_slug on blogs(slug);
+create index idx_blogs_published_at on blogs(published_at);
+
+
+-- =====================
+-- TAGS TABLE
+-- =====================
+create table tags (
+  id uuid primary key default gen_random_uuid(),
+  name text not null unique,
+  created_at timestamptz default now()
+);
+
+comment on table tags is 'Stores unique tags for blog categorization.';
+comment on column tags.id is 'Primary key UUID for the tag.';
+comment on column tags.name is 'Tag name (e.g. Health, Nutrition, Fitness).';
+comment on column tags.created_at is 'Record creation time.';
+
+
+-- =====================
+-- BLOG_TAGS TABLE (Many-to-Many)
+-- =====================
+create table blog_tags (
+  blog_id uuid references blogs(id) on delete cascade,
+  tag_id uuid references tags(id) on delete cascade,
+  primary key (blog_id, tag_id)
+);
+
+comment on table blog_tags is 'Join table for many-to-many relationship between blogs and tags.';
+
+
+-- =====================
+-- COMMENTS TABLE
+-- =====================
+create table comments (
+  id uuid primary key default gen_random_uuid(),
+  blog_id uuid references blogs(id) on delete cascade,
+  username text not null,  -- free text username
+  content text not null,
+  created_at timestamptz default now(),
+  status text check (status in ('approved','pending','rejected')) default 'pending'
+);
+
+comment on table comments is 'Stores public comments on blogs with moderation.';
+comment on column comments.id is 'Primary key UUID for the comment.';
+comment on column comments.blog_id is 'Blog that this comment belongs to.';
+comment on column comments.username is 'Name entered by commenter (no relation).';
+comment on column comments.content is 'Comment text.';
+comment on column comments.created_at is 'When the comment was created.';
+comment on column comments.status is 'Moderation status.';
+
+alter table comments enable row level security;
+
+-- Public can read only approved comments
+create policy comments_select_public on comments for select
+  using ( status = 'approved' );
+
+-- Anyone can insert comments (if you want open comments)
+create policy comments_insert_anyone on comments for insert
+  with check (true);
+
+-- Indexes
+create index idx_comments_blog_id on comments(blog_id);
+
+
+-- =====================
+-- SUBSCRIPTIONS TABLE (Optional: for push notifications)
+-- =====================
+create table subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  endpoint text not null unique,
+  keys jsonb not null, -- stores auth + p256dh keys
+  created_at timestamptz default now()
+);
+
+comment on table subscriptions is 'Stores Web Push subscriptions for anonymous users.';
+comment on column subscriptions.endpoint is 'Unique push endpoint for the browser.';
+comment on column subscriptions.keys is 'Auth + p256dh keys for push notifications.';
+comment on column subscriptions.created_at is 'When the subscription was created.';
+
+alter table subscriptions enable row level security;
+
+-- Allow anyone to insert a subscription (public signup)
+create policy subscriptions_insert_anyone on subscriptions for insert
+  with check (true);
+
+-- No public select (to protect subscription data)
