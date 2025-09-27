@@ -126,6 +126,66 @@ export default function Post() {
         </div>
       )}
 
+      {/* Share Section */}
+      <div className="mt-10 border-t pt-6">
+        <h3 className="text-lg font-semibold text-gray-700 mb-3">
+          Share this post:
+        </h3>
+        <div className="flex gap-4">
+          {/* X (Twitter) */}
+          <a
+            href={`https://X.com/intent/tweet?url=${encodeURIComponent(
+              window.location.href
+            )}&text=${encodeURIComponent(frontmatter.title)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 bg-black rounded-full text-white hover:opacity-80"
+            aria-label="Share on X"
+          >
+            <i className="fab fa-x-twitter"></i>
+          </a>
+
+          {/* Facebook */}
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+              window.location.href
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 bg-blue-600 rounded-full text-white hover:bg-blue-700"
+            aria-label="Share on Facebook"
+          >
+            <i className="fab fa-facebook-f"></i>
+          </a>
+
+          {/* LinkedIn */}
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+              window.location.href
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 bg-blue-500 rounded-full text-white hover:bg-blue-600"
+            aria-label="Share on LinkedIn"
+          >
+            <i className="fab fa-linkedin-in"></i>
+          </a>
+
+          {/* WhatsApp */}
+          <a
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+              frontmatter.title + " " + window.location.href
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 bg-green-500 rounded-full text-white hover:bg-green-600"
+            aria-label="Share on WhatsApp"
+          >
+            <i className="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+
       {/* Back link */}
       <div className="mt-10">
         <Link
