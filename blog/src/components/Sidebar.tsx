@@ -45,6 +45,7 @@ export default function Sidebar() {
       } else if (data.already) {
         setButtonText("Already Subscribed 💌");
         setMessage({ text: "You’re already subscribed 💌", type: "error" });
+        setIsValid(false);
       } else {
         setButtonText("Try Again ❌");
         setMessage({ text: data.error || "Something went wrong", type: "error" });
@@ -57,10 +58,10 @@ export default function Sidebar() {
       setLoading(false);
 
       // Reset button text after 0.7s
-      setTimeout(() => setButtonText("Subscribe"), 700);
+      setTimeout(() => setButtonText("Subscribe"), 1500);
 
       // Clear message after 1.5s
-      setTimeout(() => setMessage({ text: "", type: null }), 1500);
+      setTimeout(() => setMessage({ text: "", type: null }), 2500);
     }
   };
 
