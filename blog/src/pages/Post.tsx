@@ -134,7 +134,7 @@ export default function Post() {
         <div className="flex gap-4">
           {/* X (Twitter) */}
           <a
-            href={`https://X.com/intent/tweet?url=${encodeURIComponent(
+            href={`https://x.com/intent/tweet?url=${encodeURIComponent(
               window.location.href
             )}&text=${encodeURIComponent(frontmatter.title)}`}
             target="_blank"
