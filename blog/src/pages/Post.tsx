@@ -97,12 +97,12 @@ export default function Post() {
             <span>{frontmatter.readTime}</span>
           </>
         )}
-        {frontmatter.author && (
+        {/*{frontmatter.author && (
           <>
             <span>•</span>
             <span>{frontmatter.author}</span>
           </>
-        )}
+        )}*/}
       </div>
 
       {/* Markdown content */}

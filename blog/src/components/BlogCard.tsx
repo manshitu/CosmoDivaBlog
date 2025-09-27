@@ -50,12 +50,12 @@ export default function BlogCard({ post }: BlogCardProps) {
               • <span>{post.readTime}</span>
             </>
           )}
-          {post.author && (
+          {/*{post.author && (
             <>
               {" "}
               • <span>{post.author}</span>
             </>
-          )}
+          )}*/}
         </div>
 
         {/* Title */}
