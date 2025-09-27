@@ -197,6 +197,13 @@ export default {
       });
     }
 
+    // Debug route to dump environment variables
+    if (path === "/debug") {
+      return new Response(JSON.stringify(env, null, 2), {
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     // 6. Fallback → let Pages serve everything else
     return fetch(request);
   },

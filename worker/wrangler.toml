@@ -1,0 +1,15 @@
+name = "cosmodiva-worker"
+main = "src/index.js"
+compatibility_date = "2025-09-25"
+
+[[r2_buckets]]
+binding = "COSMO_BUCKET"
+bucket_name = "cosmo-content"
+
+[vars]
+SITE_URL = "https://yourdomain.com"
+PAGES_ORIGIN = "https://yourproject.pages.dev"
+
+# wrangler.toml (wrangler v3.88.0^)
+[observability.logs]
+enabled = true
