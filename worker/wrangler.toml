@@ -7,9 +7,12 @@ binding = "COSMO_BUCKET"
 bucket_name = "cosmo-content"
 
 [vars]
+# Your public site URL (the domain users visit)
 SITE_URL = "https://blog.cosmodiva.com"
-PAGES_ORIGIN = "cosmodiva-blog.cosmodiva-coming-soon.workers.dev"
 
-# wrangler.toml (wrangler v3.88.0^)
+# IMPORTANT: this must be the PAGES DOMAIN (pages.dev), not a worker URL,
+# because the Worker fetches index.html from Pages to inject meta
+PAGES_ORIGIN = "https://cosmodivablog.pages.dev"
+
 [observability.logs]
 enabled = true
