@@ -146,20 +146,20 @@ export default {
       };
 
       const meta = `
-<title>${escapeHtml(title)} — CosmoDiva</title>
-<meta name="description" content="${escapeHtml(desc)}" />
-<link rel="canonical" href="${pageUrl}" />
-<meta property="og:title" content="${escapeHtml(title)}" />
-<meta property="og:description" content="${escapeHtml(desc)}" />
-<meta property="og:image" content="${escapeHtml(image)}" />
-<meta property="og:url" content="${pageUrl}" />
-<meta property="og:type" content="article" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="${escapeHtml(title)}" />
-<meta name="twitter:description" content="${escapeHtml(desc)}" />
-<meta name="twitter:image" content="${escapeHtml(image)}" />
-<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
-`;
+        <title>${escapeHtml(title)} — CosmoDiva</title>
+        <meta name="description" content="${escapeHtml(desc)}" />
+        <link rel="canonical" href="${pageUrl}" />
+        <meta property="og:title" content="${escapeHtml(title)}" />
+        <meta property="og:description" content="${escapeHtml(desc)}" />
+        <meta property="og:image" content="${escapeHtml(image)}" />
+        <meta property="og:url" content="${pageUrl}" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="${escapeHtml(title)}" />
+        <meta name="twitter:description" content="${escapeHtml(desc)}" />
+        <meta name="twitter:image" content="${escapeHtml(image)}" />
+        <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+        `;
 
       // Always fetch index.html from SITE_URL (reliable)
       const targetUrl = `${site}/index.html`;
@@ -221,16 +221,16 @@ export default {
       }
 
       const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls
-  .map(
-    (u) => `  <url>
-    <loc>${u.loc}</loc>
-    <lastmod>${new Date(u.lastmod).toISOString()}</lastmod>
-  </url>`
-  )
-  .join("\n")}
-</urlset>`;
+        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        ${urls
+          .map(
+            (u) => `  <url>
+            <loc>${u.loc}</loc>
+            <lastmod>${new Date(u.lastmod).toISOString()}</lastmod>
+          </url>`
+          )
+          .join("\n")}
+        </urlset>`;
 
       return new Response(xml, {
         headers: { "Content-Type": "application/xml" },
@@ -243,11 +243,11 @@ ${urls
     if (path === "/robots.txt") {
       const site = env.SITE_URL;
       const robots = `
-User-agent: *
-Allow: /
+        User-agent: *
+        Allow: /
 
-Sitemap: ${site}/sitemap.xml
-`;
+        Sitemap: ${site}/sitemap.xml
+        `;
       return new Response(robots, {
         headers: { "Content-Type": "text/plain" },
       });

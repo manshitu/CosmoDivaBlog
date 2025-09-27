@@ -37,7 +37,7 @@ export default function Home() {
     setCurrentPage(1);
   }, [categoryFromUrl]);
 
-  // ✅ Fetch posts list from Worker API
+  // ✅ Fetch posts list from Worker API on mount
   useEffect(() => {
     setLoading(true);
     fetch("/api/posts")
